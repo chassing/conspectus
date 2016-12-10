@@ -1,7 +1,11 @@
 # -*- coding: utf-8 -*-
-from flask import Flask, render_template
-from flask_bootstrap import Bootstrap
 import docker
+
+from flask import Flask
+from flask import render_template
+from flask_bootstrap import Bootstrap
+
+import webcolors
 
 app = Flask(__name__)
 Bootstrap(app)
@@ -19,7 +23,9 @@ def index():
     # get all tasks and enrich them with service name
     tasks = {}
     for task in client.tasks():
-        task["service_name"] = services[task['ServiceID']]['Spec']['Name']
+        service_name = services[task['ServiceID']]['Spec']['Name']
+        task["service_name"] = service_name
+        task["color"] = "rgb({},{},{})".format(*webcolors.html5_parse_legacy_color(service_name))
         if task['NodeID'] not in tasks:
             tasks[task['NodeID']] = []
         tasks[task['NodeID']].append(task)
@@ -27,7 +33,7 @@ def index():
     # get all nodes and enrich them with tasks
     nodes = []
     for node in client.nodes():
-        node['tasks'] = tasks[node['ID']]
+        node['tasks'] = sorted(tasks[node['ID']], key=lambda x: x["service_name"])
         nodes.append(node)
 
     return render_template('index.html', nodes=nodes)

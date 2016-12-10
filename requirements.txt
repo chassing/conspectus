@@ -12,3 +12,4 @@ requests==2.12.3
 six==1.10.0
 visitor==0.1.3
 websocket-client==0.40.0
+webcolors==1.7

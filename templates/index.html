@@ -7,33 +7,33 @@
 {% endblock %}
 
 {% block navbar %}
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <span class="navbar-brand">
-                <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Conspectus - your Docker Swarm overview
-            </span>
+    <nav class="navbar navbar-default">
+        <div class="container-fluid">
+            <div class="navbar-header">
+                <span class="navbar-brand">
+                    <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Conspectus - your Docker Swarm overview
+                </span>
+            </div>
         </div>
-    </div>
-</nav>
+    </nav>
 {% endblock %}
 
 {% block content %}
     <div class="container-fluid">
         {% for node in nodes %}
             <div class="panel panel-primary">
-                <div class="panel-heading">{{ node.Description.Hostname }}</div>
+                <div class="panel-heading">{{ node.Description.Hostname }} <span class="badge">{{ node.tasks|length }}</span></div>
                 <div class="panel-body">
                     <div class="row">
                         {% for task in node.tasks %}
-                            <div class="col-md-4">{{ task.service_name }} {{ task.ID }}</div>
+                            <div class="col-md-4 docker-container" style="background-color: {{ task.color }}">
+                            {{ task.service_name }} ({{ task.ID }} {{ task.Spec.ContainerSpec.Image }})</div>
                         {% endfor %}
                     </div>
                 </div>
             </div>
         {% endfor %}
     </div>
-
 
     <footer class="footer">
         <div class="container">
