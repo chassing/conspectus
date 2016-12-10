@@ -3,6 +3,7 @@ import docker
 
 from flask import Flask
 from flask import render_template
+from flask import request
 from flask_bootstrap import Bootstrap
 
 import webcolors
@@ -11,6 +12,9 @@ app = Flask(__name__)
 Bootstrap(app)
 
 client = docker.from_env()
+
+MICRO = 1000
+MINUTES = MICRO * 60
 
 
 @app.route("/")
@@ -36,7 +40,7 @@ def index():
         node['tasks'] = sorted(tasks[node['ID']], key=lambda x: x["service_name"])
         nodes.append(node)
 
-    return render_template('index.html', nodes=nodes)
+    return render_template('index.html', nodes=nodes, reload=int(request.args.get('reload', 100)) * MINUTES)
 
 
 if __name__ == "__main__":

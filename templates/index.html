@@ -7,6 +7,12 @@
     <link rel="stylesheet" href="{{url_for('static', filename='conspectus.css')}}">
 {% endblock %}
 
+{% block scripts %}
+    <script type="text/javascript">
+        window.setTimeout(function(){ document.location.reload(true); }, {{ reload }});
+    </script>
+{% endblock %}
+
 {% block navbar %}
     <nav class="navbar navbar-default">
         <div class="container-fluid">
@@ -15,6 +21,11 @@
                     <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Conspectus - your Docker Swarm overview
                 </span>
             </div>
+
+            <p class="glyphicon glyphicon-refresh navbar-text"> Reload </p>
+            <a href="?reload=1" class="btn btn-default navbar-btn">1 Minute</a>
+            <a href="?reload=5" class="btn btn-default navbar-btn">5 Minute</a>
+            <a href="?reload=10" class="btn btn-default navbar-btn">10 Minute</a>
         </div>
     </nav>
 {% endblock %}
