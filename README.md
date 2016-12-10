@@ -16,4 +16,4 @@ Run Conspectus as docker service and please take care that you run conspectus on
 
 Point your browser to http://cluster-manager:8000.
 
-![Screenshot](./static/images/screenshot.png)
+![Screenshot](https://raw.githubusercontent.com/chassing/conspectus/master/static/images/screenshot.png)
