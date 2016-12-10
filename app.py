@@ -25,7 +25,7 @@ def index():
     for task in client.tasks():
         service_name = services[task['ServiceID']]['Spec']['Name']
         task["service_name"] = service_name
-        task["color"] = "rgb({},{},{})".format(*webcolors.html5_parse_legacy_color(service_name))
+        task["color"] = "rgba({},{},{},0.35)".format(*webcolors.html5_parse_legacy_color(service_name))
         if task['NodeID'] not in tasks:
             tasks[task['NodeID']] = []
         tasks[task['NodeID']].append(task)
