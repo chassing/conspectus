@@ -16,17 +16,15 @@
 {% block body_attribs %} style="padding: 10px" {% endblock %}
 
 {% block content %}
-    <h1>Hello, Bootstrap</h1>
-
     {% for node in nodes %}
         <div class="panel panel-primary">
             <div class="panel-heading">{{ node.Description.Hostname }}</div>
             <div class="panel-body">
-                    <div class="row">
-                        {% for task in node.tasks %}
-                            <div class="col-md-4">{{ task.service_name }} {{ task.ID }}</div>
-                        {% endfor %}
-                    </div>
+                <div class="row">
+                    {% for task in node.tasks %}
+                        <div class="col-md-4">{{ task.service_name }} {{ task.ID }}</div>
+                    {% endfor %}
+                </div>
             </div>
         </div>
     {% endfor %}

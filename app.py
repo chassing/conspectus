@@ -11,18 +11,25 @@ client = docker.from_env()
 
 @app.route("/")
 def index():
-    # for node in client.nodes()
-    from pprint import pprint
-    nodes = []
-    for n in client.nodes():
-        n['tasks'] = []
-        for task in client.tasks(filters={'node': n['ID']}):
-            task['service_name'] = client.services(filters={'id': task['ServiceID']})[0]['Spec']['Name']
-            pprint(task)
-            n['tasks'].append(task)
-        nodes.append(n)
+    # get all services
+    services = {}
+    for service in client.services():
+        services[service['ID']] = service
 
-    pprint(nodes)
+    # get all tasks and enrich them with service name
+    tasks = {}
+    for task in client.tasks():
+        task["service_name"] = services[task['ServiceID']]['Spec']['Name']
+        if task['NodeID'] not in tasks:
+            tasks[task['NodeID']] = []
+        tasks[task['NodeID']].append(task)
+
+    # get all nodes and enrich them with tasks
+    nodes = []
+    for node in client.nodes():
+        node['tasks'] = tasks[node['ID']]
+        nodes.append(node)
+
     return render_template('index.html', nodes=nodes)
 
 
