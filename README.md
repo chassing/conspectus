@@ -9,7 +9,7 @@ As prerequisite setup your swarm cluster before you run Conspectus, see [Docker 
 Run Conspectus as docker service and please take care that you run conspectus on a swarm manager and bind mount the docker socket too.
 
 
-    $ docker service create --name conspectus -p 8000:5000 --mount src=/var/run/docker.sock,dst=/var/run/docker.sock,type=bind --constraint "node.role == manager" conspectus:latest
+    $ docker service create --name conspectus -p 8000:5000 --mount src=/var/run/docker.sock,dst=/var/run/docker.sock,type=bind --constraint "node.role == manager" chassing/conspectus:latest
 
     ✨🍻😎✨
 
