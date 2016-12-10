@@ -1,32 +1,43 @@
 {% extends "bootstrap/base.html" %}
 {% block title %}Conspectus{% endblock %}
 
+{% block styles %}
+    {{ super() }}
+    <link rel="stylesheet" href="{{url_for('static', filename='conspectus.css')}}">
+{% endblock %}
+
 {% block navbar %}
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">
-                <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span>
-            </a>
+            <span class="navbar-brand">
+                <span class="glyphicon glyphicon-cloud" aria-hidden="true"></span> Conspectus - your Docker Swarm overview
+            </span>
         </div>
     </div>
 </nav>
 {% endblock %}
 
-{% block body_attribs %} style="padding: 10px" {% endblock %}
-
 {% block content %}
-    {% for node in nodes %}
-        <div class="panel panel-primary">
-            <div class="panel-heading">{{ node.Description.Hostname }}</div>
-            <div class="panel-body">
-                <div class="row">
-                    {% for task in node.tasks %}
-                        <div class="col-md-4">{{ task.service_name }} {{ task.ID }}</div>
-                    {% endfor %}
+    <div class="container-fluid">
+        {% for node in nodes %}
+            <div class="panel panel-primary">
+                <div class="panel-heading">{{ node.Description.Hostname }}</div>
+                <div class="panel-body">
+                    <div class="row">
+                        {% for task in node.tasks %}
+                            <div class="col-md-4">{{ task.service_name }} {{ task.ID }}</div>
+                        {% endfor %}
+                    </div>
                 </div>
             </div>
-        </div>
-    {% endfor %}
-{% endblock %}
+        {% endfor %}
+    </div>
 
+
+    <footer class="footer">
+        <div class="container">
+            <p class="text-muted">Made with <span class="glyphicon glyphicon-heart" aria-hidden="true"></span> by <a href="https://github.com/chassing/">Christian Assing</a>.</p>
+        </div>
+    </footer>
+{% endblock %}
