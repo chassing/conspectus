@@ -38,6 +38,8 @@ def index():
     nodes = []
     for node in client.nodes():
         node['tasks'] = sorted(tasks[node['ID']], key=lambda x: x["service_name"])
+        if "ManagerStatus" not in node:
+            node['Manager'] = {'Leader': False}
         nodes.append(node)
 
     return render_template('index.html', nodes=nodes, reload=int(request.args.get('reload', 100)) * MINUTES)
