@@ -2,7 +2,9 @@
 import docker
 import os
 
-from jinja2 import Environment, FileSystemLoader, select_autoescape
+from jinja2 import Environment
+from jinja2 import FileSystemLoader
+from jinja2 import select_autoescape
 from sanic import Sanic
 from sanic.response import html
 
@@ -65,4 +67,4 @@ def index(request):
 
 
 if __name__ == "__main__":
-    app.run(host="0.0.0.0", port=5000, debug=True if os.getenv('DEBUG') else False)
+    app.run(host="0.0.0.0", port=5000, workers=5, debug=True if os.getenv('DEBUG') else False)
