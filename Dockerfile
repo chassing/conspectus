@@ -8,4 +8,4 @@ COPY . /usr/src/app
 
 EXPOSE 5000
 
-CMD ["./run.sh"]
+CMD ["python", "app.py"]
