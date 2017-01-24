@@ -1,24 +1,40 @@
 # -*- coding: utf-8 -*-
 import docker
+import os
 
-from flask import Flask
-from flask import render_template
-from flask import request
-from flask_bootstrap import Bootstrap
+from jinja2 import Environment, FileSystemLoader, select_autoescape
+from sanic import Sanic
+from sanic.response import html
 
 import webcolors
 
-app = Flask(__name__)
-Bootstrap(app)
-
+app = Sanic(__name__)
+app.static('/static', './static')
 client = docker.from_env()
+
+env = Environment(
+    loader=FileSystemLoader('./templates'),
+    autoescape=select_autoescape(['html', 'xml'])
+)
 
 MICRO = 1000
 MINUTES = MICRO * 60
 
+# unset http proxies
+for item in ["http_proxy", "https_proxy"]:
+    try:
+        del os.environ[item]
+    except:
+        pass
+
+    try:
+        del os.environ[item.upper()]
+    except:
+        pass
+
 
 @app.route("/")
-def index():
+def index(request):
     # get all services
     services = {}
     for service in client.services():
@@ -37,13 +53,16 @@ def index():
     # get all nodes and enrich them with tasks
     nodes = []
     for node in client.nodes():
-        node['tasks'] = sorted(tasks[node['ID']], key=lambda x: x["service_name"])
+        try:
+            node['tasks'] = sorted(tasks[node['ID']], key=lambda x: x["service_name"])
+        except KeyError:
+            node['tasks'] = []
         if "ManagerStatus" not in node:
             node['ManagerStatus'] = {'Leader': False}
         nodes.append(node)
 
-    return render_template('index.html', nodes=nodes, reload=int(request.args.get('reload', 100)) * MINUTES)
+    return html(env.get_template('index.html').render(nodes=sorted(nodes, key=lambda x: x['Description']['Hostname']), reload=int(request.args.get('reload', 100)) * MINUTES))
 
 
 if __name__ == "__main__":
-    app.run()
+    app.run(host="0.0.0.0", port=5000, debug=True if os.getenv('DEBUG') else False)
