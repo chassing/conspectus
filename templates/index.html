@@ -58,11 +58,11 @@
             <div class="panel panel-primary">
                 <div class="panel-heading">
                     <span class="panel-title">
-                        {{ node.Description.Hostname }} <span title="Running Container" class="badge">{{ node.tasks|length }}</span>
-                        {% if node.Spec.Role == 'manager' %}
+                        {{ node.attrs.Description.Hostname }} <span title="Running Container" class="badge">{{ node.tasks|length }}</span>
+                        {% if node.attrs.Spec.Role == 'manager' %}
                             <span title="Manager node" class="glyphicon glyphicon-user" aria-hidden="true"></span>
                         {% endif %}
-                        {% if node.ManagerStatus.Leader %}
+                        {% if node.attrs.ManagerStatus.Leader %}
                             <span title="Leader node" class="glyphicon glyphicon-king" aria-hidden="true"></span>
                         {% endif %}
                     </span>
