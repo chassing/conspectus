@@ -6,10 +6,10 @@ body {
   /* Margin bottom by footer height */
     margin-bottom: 60px;
     font-family: 'Ubuntu Mono', monospace;
-    background-image: url("/static/images/harbour-boat-sea-plane-80404.jpg");
-    background-repeat: no-repeat;
-    background-size: cover;
+    background: url("/static/images/grid.png");
+    background-attachment: fixed;
 }
+
 .footer {
     position: absolute;
     bottom: 0;

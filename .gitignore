@@ -3,3 +3,5 @@ static/images/harbour-boat-sea-plane-80404 Kopie 2.jpg
 .env
 nusetup.py
 __pycache__
+access.log
+error.log

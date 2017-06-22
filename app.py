@@ -50,7 +50,6 @@ def index(request):
     # get all nodes and enrich them with tasks
     nodes = []
     for node in client.nodes.list():
-        print(node.attrs)
         try:
             node.tasks = sorted(tasks[node.id], key=lambda x: x["service_name"])
         except KeyError:

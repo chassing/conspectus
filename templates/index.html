@@ -22,13 +22,8 @@
     <meta name="theme-color" content="#ffffff">
 {% endblock %}
 
-{% block styles %}
-    {{ super() }}
-    <link href="https://fonts.googleapis.com/css?family=Ubuntu+Mono" rel="stylesheet">
-    <link rel="stylesheet" href="/static/conspectus.css">
-{% endblock %}
-
 {% block scripts %}
+    {{ super() }}
     <script type="text/javascript">
         window.setTimeout(function(){ document.location.reload(true); }, {{ reload }});
     </script>
