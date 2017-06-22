@@ -35,6 +35,25 @@ for item in ["http_proxy", "https_proxy"]:
         pass
 
 
+def _image_name(image):
+    """Convert long image name to short one.
+
+    e.g 'dockerregistry-v2.my.domain.com.foobar/isilon-data-insights:latest@sha256:HASH' -> dockerreg.../isilon-data-insights:latest
+    """
+    try:
+        # remove @sha256:....
+        image = image.split("@")[0]
+    except IndexError:
+        pass
+    try:
+        # reduce username or registry fqdn
+        reg, img = image.split("/")
+        image = reg[:10] + (reg[10:] and '...') + "/" + img
+    except ValueError:
+        pass
+    return image
+
+
 @app.route("/")
 def index(request):
     # get all tasks and enrich them with service name
@@ -43,6 +62,7 @@ def index(request):
         service_name = client.services.get(task['ServiceID']).name
         task["service_name"] = service_name
         task["color"] = "rgba({},{},{},0.35)".format(*webcolors.html5_parse_legacy_color(service_name))
+        task['image'] = _image_name(task['Spec']['ContainerSpec']['Image'])
         if task['NodeID'] not in tasks:
             tasks[task['NodeID']] = []
         tasks[task['NodeID']].append(task)

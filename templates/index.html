@@ -75,7 +75,7 @@
                     <div class="row">
                         {% for task in node.tasks %}
                             <div class="col-md-4 docker-container" style="background-color: {{ task.color }}">
-                            {{ task.service_name }} ({{ task.Status.ContainerStatus.ContainerID|truncate(12, True, '') }} {{ task.Spec.ContainerSpec.Image }})</div>
+                            {{ task.service_name }} ({{ task.Status.ContainerStatus.ContainerID|truncate(12, True, '') }} {{ task.image }})</div>
                         {% endfor %}
                     </div>
                 </div>
