@@ -60,6 +60,15 @@
                         {% if node.attrs.ManagerStatus.Leader %}
                             <span title="Leader node" class="glyphicon glyphicon-king" aria-hidden="true"></span>
                         {% endif %}
+                        {% if node.attrs.Spec.Availability == 'active' %}
+                            <span title="Manager node" class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if node.attrs.Spec.Availability == 'pause' %}
+                            <span title="Manager node" class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                        {% endif %}
+                        {% if node.attrs.Spec.Availability == 'drain' %}
+                            <span title="Manager node" class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                        {% endif %}
                     </span>
                 </div>
                 <div class="panel-body">
