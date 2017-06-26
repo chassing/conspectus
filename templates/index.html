@@ -61,13 +61,13 @@
                             <span title="Leader node" class="glyphicon glyphicon-king" aria-hidden="true"></span>
                         {% endif %}
                         {% if node.attrs.Spec.Availability == 'active' %}
-                            <span title="Manager node" class="glyphicon glyphicon-play" aria-hidden="true"></span>
+                            <span title="Active" class="glyphicon glyphicon-play" aria-hidden="true"></span>
                         {% endif %}
                         {% if node.attrs.Spec.Availability == 'pause' %}
-                            <span title="Manager node" class="glyphicon glyphicon-pause" aria-hidden="true"></span>
+                            <span title="Pause" class="glyphicon glyphicon-pause" aria-hidden="true"></span>
                         {% endif %}
                         {% if node.attrs.Spec.Availability == 'drain' %}
-                            <span title="Manager node" class="glyphicon glyphicon-stop" aria-hidden="true"></span>
+                            <span title="Drain" class="glyphicon glyphicon-stop" aria-hidden="true"></span>
                         {% endif %}
                     </span>
                 </div>
@@ -75,7 +75,11 @@
                     <div class="row">
                         {% for task in node.tasks %}
                             <div class="col-md-4 docker-container" style="background-color: {{ task.color }}">
-                            {{ task.service_name }} ({{ task.Status.ContainerStatus.ContainerID|truncate(12, True, '') }} {{ task.image }})</div>
+                                <p>
+                                    {{ task.service_name }}
+                                </p>
+                                ({{ task.Status.ContainerStatus.ContainerID|truncate(12, True, '') }} {{ task.image }})
+                            </div>
                         {% endfor %}
                     </div>
                 </div>
